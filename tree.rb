@@ -25,13 +25,28 @@ class Print_tree
  end
 
  def print_tree_with(center, height)
-  center += height 
-  0.upto(height) { |i| puts ( " " * (center - i) + ("*" * (1+(i * 2))) ) }
-  2.upto(5) { |i| puts ( " " * (center - i) + ("*" * (1+(i * 2))) ) }
-  3.upto(7) { |i| puts ( " " * (center - i) + ("*" * (1+(i * 2))) ) }
-  1.upto(3) { |i| puts ( " " * (center - 1) + ("*" * 3) ) }
+  center += height * 3
+  print_treeangle( up_size: 0, down_size: height - 1, center: center )
+  0.upto(height - 1) { |i| puts ( " " * (center - i) + ("*" * (1+(i * 2))) ) }
+  1.upto(height    ) { |i| puts ( " " * (center - i) + ("*" * (1+(i * 2))) ) }
+  2.upto(height + 1) { |i| puts ( " " * (center - i) + ("*" * (1+(i * 2))) ) }
+  1.upto(height) { |i| puts ( " " * (center - ( height > 2 ? 1 : 0)) + ("*" * (height > 2 ? 3 : 1)) ) }
+ end
+
+ def print_treeangle(arg = {})
+  up_size, down_size, center = arg[:up_size].to_i, arg[:down_size].to_i, arg[:center].to_i
+  up_size.upto(down_size) { |i| puts spaces(center - i) + stars(1+(i * 2)) }
+ end
+
+ def spaces(amount)
+  return " " * amount
+ end
+
+ def stars(amount)
+  return "*" * amount
  end
 
 end
+
 
 Print_tree.new
