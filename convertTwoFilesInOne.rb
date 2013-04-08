@@ -1,9 +1,11 @@
 class Test_convert_two_files_in_to_one
  def test
-  file1, file2 = create_test_file1_and_file2
-  
+  file1_name, file2_name = create_test_file1_and_file2
+
+  puts "File names: #{file1_name}, #{file2_name}"
+
   if (class_exist?("Convert_two_files_in_to_one"))
-   @output_file = Convert_two_files_in_one.new(file1, file2)
+   @output_file = Convert_two_files_in_one.new(file1_name, file2_name)
   else
    return "Class 'Convert_two_files_in_to_one' does't exist!"
   end
@@ -31,6 +33,7 @@ class Test_convert_two_files_in_to_one
   File.open(arg[:file_name],'w') do |data_file| 
    data_file.puts arg[:data]
   end
+  return arg[:file_name]
  end
 
  def class_exist?(class_name)
