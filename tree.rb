@@ -7,7 +7,7 @@ class Tree
  end
 
  def correction_center
-  @center += @size * 3
+  @center += @size * 3 - 1
  end
 
  def print_coma
@@ -45,12 +45,16 @@ def one_or_more(number)
  number < 1 ? 1 : number
 end
 
+def zero_or_more(number)
+ number < 0 ? 0 : number
+end
+
 def ask_user_center_and_size_of_tree
  puts "Size and center on tree should be more zero and integer!"
- print "Size of tree: "
+ print "Size of tree(min 1): "
  height = one_or_more(gets.to_i)
- print "Center of the tree(the distance from the left side of the screen to the tree): "
- center = one_or_more(gets.to_i)
+ print "Center of the tree(the distance from the left side of the screen to the tree)(min 0): "
+ center = zero_or_more(gets.to_i)
  return center, height
 end
 
