@@ -7,7 +7,7 @@ class Tree
  end
 
  def correction_center
-  @center += @size * 3 - 1
+  @center += @size < 3 ? 2 : @size + 1
  end
 
  def print_coma
