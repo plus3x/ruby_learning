@@ -1,11 +1,27 @@
-class Print_tree
-
+class Tree
+ 
  def initialize
+  @center, @height = 1, 1
+
   clear_screen
 
-  center, height = ask_user_center_and_height_of_tree
+  get_data_from_user
 
-  print_tree_with center, height
+  print_tree
+ end
+
+ def print_tree
+  print_coma
+  print_trunk
+ end
+
+ def get_data_from_user 
+  @center, @height = ask_user_center_and_height_of_tree
+  correction_center
+ end
+
+ def correction_center
+  @center += @height * 3
  end
 
  def clear_screen
@@ -13,7 +29,7 @@ class Print_tree
  end
 
  def one_or_more(number)
-  return number < 1 ? 1 : number
+  number < 1 ? 1 : number
  end
 
  def ask_user_center_and_height_of_tree
@@ -24,29 +40,32 @@ class Print_tree
   return center, height
  end
 
- def print_tree_with(center, height)
-  center += height * 3
-  print_treeangle( up_size: 0, down_size: height - 1, center: center )
-  0.upto(height - 1) { |i| puts ( " " * (center - i) + ("*" * (1+(i * 2))) ) }
-  1.upto(height    ) { |i| puts ( " " * (center - i) + ("*" * (1+(i * 2))) ) }
-  2.upto(height + 1) { |i| puts ( " " * (center - i) + ("*" * (1+(i * 2))) ) }
-  1.upto(height) { |i| puts ( " " * (center - ( height > 2 ? 1 : 0)) + ("*" * (height > 2 ? 3 : 1)) ) }
+ def print_coma
+  3.times { |i| print_treeangle(up: i, down: @height+(i-1)) }
+ end
+
+ def print_trunk
+  width = search_width 
+  distance = search_distance(width: width)
+  1.upto(@height) { |i| print_spaces_and_stars(spaces: distance, stars: width ) }
+ end
+
+ def search_width
+  @height < 2 ? 1 : 3
+ end
+
+ def search_distance( arg = {} )
+  @center - ( ( arg[:width] < 2 ? 2 : arg[:width]) % 2 )
  end
 
  def print_treeangle(arg = {})
-  up_size, down_size, center = arg[:up_size].to_i, arg[:down_size].to_i, arg[:center].to_i
-  up_size.upto(down_size) { |i| puts spaces(center - i) + stars(1+(i * 2)) }
+  arg[:up].upto(arg[:down]) { |i| print_spaces_and_stars(spaces: @center - i, stars: 1+(i * 2)) }
  end
 
- def spaces(amount)
-  return " " * amount
- end
-
- def stars(amount)
-  return "*" * amount
+ def print_spaces_and_stars(arg = {})
+  puts (" " * arg[:spaces]) + ("*" * arg[:stars])
  end
 
 end
 
-
-Print_tree.new
+Tree.new
