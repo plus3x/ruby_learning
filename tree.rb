@@ -1,27 +1,27 @@
 class Tree
- def print(center, height)
-  @center, @height = center, height
-  correction_center 
+ def print(center, size)
+  @center, @size = center, size
+  correction_center
   print_coma
   print_trunk
  end
 
  def correction_center
-  @center += @height * 3
+  @center += @size * 3
  end
 
  def print_coma
-  3.times { |i| print_treeangle(up: i, down: @height+(i-1)) }
+  3.times { |i| print_treeangle(up: i, down: @size+(i-1)) }
  end
 
  def print_trunk
   width = search_width 
   distance = search_distance(width: width)
-  1.upto(@height) { |i| print_spaces_and_stars(spaces: distance, stars: width ) }
+  1.upto(@size) { |i| print_spaces_and_stars(spaces: distance, stars: width ) }
  end
 
  def search_width
-  @height < 2 ? 1 : 3
+  @size < 2 ? 1 : 3
  end
 
  def search_distance( arg = {} )
@@ -45,14 +45,16 @@ def one_or_more(number)
  number < 1 ? 1 : number
 end
 
-def ask_user_center_and_height_of_tree
- print "Tree height(always will be multiplied by three): "
+def ask_user_center_and_size_of_tree
+ puts "Size and center on tree should be more zero and integer!"
+ print "Size of tree: "
  height = one_or_more(gets.to_i)
- print "Center of the tree(the distance from the left side of the screen): "
+ print "Center of the tree(the distance from the left side of the screen to the tree): "
  center = one_or_more(gets.to_i)
  return center, height
 end
 
 clear_screen
-center, height = ask_user_center_and_height_of_tree
+puts "This programm for printing tree."
+center, height = ask_user_center_and_size_of_tree
 Tree.new.print(center, height)
