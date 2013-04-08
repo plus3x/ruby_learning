@@ -1,8 +1,7 @@
 class Tree
- 
- def initialize(center, height)
+ def print(center, height)
   @center, @height = center, height
-  
+  correction_center 
   print_coma
   print_trunk
  end
@@ -36,7 +35,6 @@ class Tree
  def print_spaces_and_stars(arg = {})
   puts (" " * arg[:spaces]) + ("*" * arg[:stars])
  end
-
 end
 
 def clear_screen
@@ -55,5 +53,6 @@ def ask_user_center_and_height_of_tree
  return center, height
 end
 
-clear_sreen
-Tree.new(ask_user_center_and_height_of_tree)
+clear_screen
+center, height = ask_user_center_and_height_of_tree
+Tree.new.print(center, height)
