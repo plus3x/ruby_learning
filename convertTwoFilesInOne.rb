@@ -8,7 +8,7 @@ class Test_convert_two_files_in_to_one
    return "Class 'Convert_two_files_in_to_one' does't exist!"
   end
   
-  if (!output_file_exist?)
+  if (!@output_file.exist?)
    return "Output file does't exist!" 
   end
 
@@ -20,7 +20,17 @@ class Test_convert_two_files_in_to_one
  end
 
  def create_test_file1_and_file2
-  
+  file1_name = "file1.txt"
+  file2_name = "file2.txt"
+  data_file1 = ["Rob V", "Mike B", "Sten J"]
+  data_file2 = ["Bobby N", "Mike B", "Cris H"]
+  return file_create(file_name: file1_name, data: data_file1), file_create(file_name: file2_name, data: data_file2)
+ end
+
+ def file_create(arg = {})
+  File.open(arg[:file_name],'w') do |data_file| 
+   data_file.puts arg[:data]
+  end
  end
 
  def class_exist?(class_name)
