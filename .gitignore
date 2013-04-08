@@ -2,3 +2,7 @@
 .tree.rb.swp
 
 *.swp
+
+.convertTwoFilesInOne.rb.swp
+
+*.swp
