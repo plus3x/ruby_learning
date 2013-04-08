@@ -1,43 +1,14 @@
 class Tree
  
- def initialize
-  @center, @height = 1, 1
-
-  clear_screen
-
-  get_data_from_user
-
-  print_tree
- end
-
- def print_tree
+ def initialize(center, height)
+  @center, @height = center, height
+  
   print_coma
   print_trunk
  end
 
- def get_data_from_user 
-  @center, @height = ask_user_center_and_height_of_tree
-  correction_center
- end
-
  def correction_center
   @center += @height * 3
- end
-
- def clear_screen
-  print "\e[2J\e[f"
- end
-
- def one_or_more(number)
-  number < 1 ? 1 : number
- end
-
- def ask_user_center_and_height_of_tree
-  print "Tree height(always will be multiplied by three): "
-  height = one_or_more(gets.to_i)
-  print "Center of the tree(the distance from the left side of the screen): "
-  center = one_or_more(gets.to_i)
-  return center, height
  end
 
  def print_coma
@@ -68,4 +39,21 @@ class Tree
 
 end
 
-Tree.new
+def clear_screen
+ print "\e[2J\e[f"
+end
+
+def one_or_more(number)
+ number < 1 ? 1 : number
+end
+
+def ask_user_center_and_height_of_tree
+ print "Tree height(always will be multiplied by three): "
+ height = one_or_more(gets.to_i)
+ print "Center of the tree(the distance from the left side of the screen): "
+ center = one_or_more(gets.to_i)
+ return center, height
+end
+
+clear_sreen
+Tree.new(ask_user_center_and_height_of_tree)
