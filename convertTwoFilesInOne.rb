@@ -22,7 +22,7 @@ class Test_convert_two_files_in_to_one
  end
 
  def output_file_exist?
-  File.exist?(@output_file)
+  File.exist?(@output_file.to_s)
  end
 
  def create_test_file1_and_file2
@@ -46,7 +46,10 @@ class Test_convert_two_files_in_to_one
 
  def output_file_is_correct?
   true_resault = ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"]
-  File.open(@output_file, "r") do |line|
+  if !output_file_exist? 
+   return false 
+  end
+  File.open(@output_fil.to_s, "r") do |line|
    if (!line.readline == true_resault)
     return false
    end
