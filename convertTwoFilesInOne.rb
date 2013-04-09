@@ -7,18 +7,22 @@ class Test_convert_two_files_in_to_one
   if (class_exist?("Convert_two_files_in_to_one"))
    @output_file = Convert_two_files_in_one.new(file1_name, file2_name)
   else
-   return "Class 'Convert_two_files_in_to_one' does't exist!"
+   puts "Class 'Convert_two_files_in_to_one' does't exist!"
   end
   
-  if (!@output_file.exist?)
-   return "Output file does't exist!" 
+  if (!output_file_exist?)
+   puts "Output file does't exist!" 
   end
 
   if (output_file_is_correct?)
-   return "Test is done!"
+   puts "Test is done!"
   else
-   return "Output data is not correct!"
+   puts "Output data is not correct!"
   end
+ end
+
+ def output_file_exist?
+  File.exist?(@output_file)
  end
 
  def create_test_file1_and_file2
@@ -41,7 +45,13 @@ class Test_convert_two_files_in_to_one
  end
 
  def output_file_is_correct?
-
+  true_resault = ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"]
+  File.open(@output_file, "r") do |line|
+   if (!line.readline == true_resault)
+    return false
+   end
+  end
+  return true
  end
 end
 
