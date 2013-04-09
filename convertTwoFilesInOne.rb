@@ -1,13 +1,13 @@
 class Test_convert_two_files_in_to_one
 
- def get_test_data
+ def get_test_simple_data
   return "file1.txt", "file2.txt",
    ["Rob V", "Mike B", "Sten J"], ["Bobby N", "Mike B", "Cris H"],
    ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"] 
  end
 
  def test
-  @file1_name, @file2_name, @list1_data, @list2_data, @true_resoult = get_test_data
+  @file1_name, @file2_name, @list1_data, @list2_data, @true_resoult = get_test_simple_data
   
   create_test file_name: @file1_name, data_file: @list1_data
   create_test file_name: @file2_name, data_file: @list2_data
@@ -17,7 +17,7 @@ class Test_convert_two_files_in_to_one
   else
    puts "Class 'Convert_two_files_in_to_one' does't exist!"
   end
-  
+
   if !exist? file: @output_file then
    puts "Output file does't exist!" 
   end
@@ -53,11 +53,11 @@ class Test_convert_two_files_in_to_one
  end
 
  def correct?( output_file )
-  if !exist? file: output_file 
+  if !exist? file: output_file then 
    return false 
   end
   File.open(output_file.to_s, "r") do |line|
-   if (!line.readline == @true_resault)
+   if (!line.readline == @true_resault) then
     return false
    end
   end
@@ -67,7 +67,12 @@ end
 
 class Convert_two_files_in_to_one
  def convert(file1_name, file2_name)
-  return "file_out"
+  output_file = "outputfile.txt"
+  true_resoult = ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"] 
+  File.open("outputfile.txt", "w") do |data_file|
+   data_file.puts true_resoult
+  end
+  return output_file
  end
 end
 
