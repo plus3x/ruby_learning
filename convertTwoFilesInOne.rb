@@ -1,8 +1,20 @@
 class Test_convert_two_files_in_to_one
- def test
-  @file1_name, @file2_name = create_test_file1_and_file2
 
+ def get_test_data(file1_name, file2_name, list1_data, list2_data, true_resoult)
+  file1_name = "file1.txt" 
+  file2_name = "file2.txt"
+  list1_data = ["Rob V", "Mike B", "Sten J"]
+  list2_data = ["Bobby N", "Mike B", "Cris H"]
+  true_resoult = ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"] 
+ end
+
+ def test
+  get_test_data @file1_name, @file2_name, @list1_data, @list2_data, @true_resoult
+  
   puts "File names: #{@file1_name}, #{@file2_name}"
+  
+  create_test file_name: @file1_name, data_file: @list1_data
+  create_test file_name: @file2_name, data_file: @list2_data
 
   if exist? class: "Convert_two_files_in_to_one" then
    @output_file = Convert_two_files_in_to_one.new.convert(@file1_name, @file2_name)
@@ -14,7 +26,7 @@ class Test_convert_two_files_in_to_one
    puts "Output file does't exist!" 
   end
 
-  if output_file_is_correct? then
+  if correct? @output_file then
    puts "Test is done!"
   else
    puts "Output data is not correct!"
@@ -38,28 +50,18 @@ class Test_convert_two_files_in_to_one
   end
  end
 
- def create_test_file1_and_file2
-  @file1_name = "file1.txt"
-  @file2_name = "file2.txt"
-  data_file1 = ["Rob V", "Mike B", "Sten J"]
-  data_file2 = ["Bobby N", "Mike B", "Cris H"]
-  return file_create(file_name: @file1_name, data: data_file1), file_create(file_name: @file2_name, data: data_file2)
- end
-
- def file_create(arg = {})
-  File.open(arg[:file_name],'w') do |data_file| 
-   data_file.puts arg[:data]
+ def create_test(arg = {})
+  File.open(arg[:file_name],'w') do |data_file|
+   data_file.puts arg[:data_file]
   end
-  return arg[:file_name]
  end
 
- def output_file_is_correct?
-  true_resault = ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"]
-  if !exist? file: @output_file 
+ def correct?( output_file )
+  if !exist? file: output_file 
    return false 
   end
-  File.open(@output_fil.to_s, "r") do |line|
-   if (!line.readline == true_resault)
+  File.open(output_file.to_s, "r") do |line|
+   if (!line.readline == @true_resault)
     return false
    end
   end
