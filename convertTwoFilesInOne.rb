@@ -1,17 +1,13 @@
 class Test_convert_two_files_in_to_one
 
- def get_test_data(file1_name, file2_name, list1_data, list2_data, true_resoult)
-  file1_name = "file1.txt" 
-  file2_name = "file2.txt"
-  list1_data = ["Rob V", "Mike B", "Sten J"]
-  list2_data = ["Bobby N", "Mike B", "Cris H"]
-  true_resoult = ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"] 
+ def get_test_data
+  return "file1.txt", "file2.txt",
+   ["Rob V", "Mike B", "Sten J"], ["Bobby N", "Mike B", "Cris H"],
+   ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"] 
  end
 
  def test
-  get_test_data @file1_name, @file2_name, @list1_data, @list2_data, @true_resoult
-  
-  puts "File names: #{@file1_name}, #{@file2_name}"
+  @file1_name, @file2_name, @list1_data, @list2_data, @true_resoult = get_test_data
   
   create_test file_name: @file1_name, data_file: @list1_data
   create_test file_name: @file2_name, data_file: @list2_data
