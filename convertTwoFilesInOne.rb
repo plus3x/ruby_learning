@@ -1,62 +1,67 @@
-class Test_convert_two_files_in_to_one
+class TestConvertTwoFilesInToOne
 
- def get_test_simple_data
-  return "file1.txt", "file2.txt",
-   ["Rob V", "Mike B", "Sten J"], ["Bobby N", "Mike B", "Cris H"],
-   ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"] 
- end
+  def test
+    set_test_simple_data
 
- def test
-  @file1_name, @file2_name, @list1_data, @list2_data, @true_resoult = get_test_simple_data
+    create_test_files
   
-  create_test file_name: @file1_name, data_file: @list1_data
-  create_test file_name: @file2_name, data_file: @list2_data
+    begin
+      @@output_file = 
+	ConvertTwoFilesInToOne.new.convert(@@file1_name, @@file2_name)
+    rescue
+      puts "Class doen't exist!"
+    end
 
-  @output_file = Convert_two_files_in_to_one.new.convert(@file1_name, @file2_name)
+    if !output_file_is_exist?
+      puts "Output file does't exist!" 
+    else
+      if !output_file_is_correct?
+        puts "Output data is not correct!"
+      else
+        puts "Test is done!"
+      end
+    end
 
-  puts "True resoult: #{@true_resoult}"
+    puts "Press enter!"
+    gets
 
-  if File.exist? @output_file then
-   if correct? @output_file then
-    puts "Test is done!"
-   else
-    puts "Output data is not correct!"
-   end
-  else 
-   puts "Output file does't exist!" 
+    delete_test_files
   end
 
-  delete_test file: @file1_name
-  delete_test file: @file2_name
-  if File.exist? @output_file then delete_test file: @output_file end
- end
+  def output_file_is_exist?
+    File.exist? @@output_file
+  end
 
- def delete_test( arg = {} )
-  File.delete(arg[:file])
- end
+  def set_test_simple_data
+    @@file1_name, @@file2_name = "file1.txt", "file2.txt"
+    @@list1_data, @@list2_data = 
+	    ["Rob V", "Mike B", "Sten J"], ["Bobby N", "Mike B", "Cris H"]
+    @@true_resoult = 
+	    ["Rob V\n", "Mike B\n", "Sten J\n", "Bobby N\n", "Cris H\n"]
+    @@file_name = "File variable in function"
+  end
 
- def create_test(arg = {})
-  File.open(arg[:file_name],'w') { |data_file| data_file.puts arg[:data_file] }
- end
+  def delete_test_files
+    [@@file1_name, @@file2_name, @@output_file].each { |file| 
+	    File.delete(file) if File.exist? file }
+  end
 
- def correct?(output_file)
-  file_array = File.readlines(output_file).each { |line| line.sub(/\n/,"|") }
+  def create_test_files
+    files = [[@@file1_name, @@list1_data], [@@file2_name, @@list2_data]]
+    files.each { |file, data| File.open(file,'w') { |line| line.puts data } }
+  end
 
-  puts "File output: #{file_array}"
-
-  return file_array == @true_resoult 
- end
+  def output_file_is_correct?
+    @@true_resoult == File.readlines(@@output_file)
+  end
 end
 
-class Convert_two_files_in_to_one
- def convert(file1_name, file2_name)
-  output_file = "outputfile.txt"
-  resoult = ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"] 
-  File.open("outputfile.txt", "w") do |data_file|
-   data_file.puts resoult
+class ConvertTwoFilesInToOne
+  def convert(file1_name, file2_name)
+    resoult = ["Rob V\n", "Mike B\n", "Sten J\n", "Bobby N\n", "Cris H\n"] 
+    File.open("outputfile.txt", "w") { |line| line.puts resoult }
+    "outputfile.txt"
   end
-  return output_file
- end
 end
 
 def clear_screen
@@ -64,5 +69,5 @@ def clear_screen
 end
 
 clear_screen
-puts "Test class 'Convert_two_files_in_to_one'"
-Test_convert_two_files_in_to_one.new.test
+puts "Test class 'ConvertTwoFilesInToOne'"
+TestConvertTwoFilesInToOne.new.test
