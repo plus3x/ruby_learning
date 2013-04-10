@@ -9,6 +9,7 @@ class TestConvertTwoFilesInToOne
       @@output_file = 
 	ConvertTwoFilesInToOne.new.convert(@@file1_name, @@file2_name)
     rescue
+      @@output_file = ""
       puts "Class doen't exist!"
     end
 
@@ -18,7 +19,7 @@ class TestConvertTwoFilesInToOne
       if !output_file_is_correct?
         puts "Output data is not correct!"
       else
-        puts "Test is done!"
+        puts "Test is done! No errors!"
       end
     end
 
