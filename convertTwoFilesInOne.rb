@@ -12,65 +12,48 @@ class Test_convert_two_files_in_to_one
   create_test file_name: @file1_name, data_file: @list1_data
   create_test file_name: @file2_name, data_file: @list2_data
 
-  if exist? class: "Convert_two_files_in_to_one" then
-   @output_file = Convert_two_files_in_to_one.new.convert(@file1_name, @file2_name)
-  else
-   puts "Class 'Convert_two_files_in_to_one' does't exist!"
-  end
+  @output_file = Convert_two_files_in_to_one.new.convert(@file1_name, @file2_name)
 
-  if !exist? file: @output_file then
+  puts "True resoult: #{@true_resoult}"
+
+  if File.exist? @output_file then
+   if correct? @output_file then
+    puts "Test is done!"
+   else
+    puts "Output data is not correct!"
+   end
+  else 
    puts "Output file does't exist!" 
-  end
-
-  if correct? @output_file then
-   puts "Test is done!"
-  else
-   puts "Output data is not correct!"
   end
 
   delete_test file: @file1_name
   delete_test file: @file2_name
-  if exist? file: @output_file then delete_test file: @output_file end
+  if File.exist? @output_file then delete_test file: @output_file end
  end
 
  def delete_test( arg = {} )
   File.delete(arg[:file])
  end
 
- def exist?(arg = {})
-  case
-   when arg.has_key?("file") then
-    return File.exist?(arg[:file])
-   when arg.has_key?("class") then
-    return Object.const_defined?(arg[:class])
-  end
- end
-
  def create_test(arg = {})
-  File.open(arg[:file_name],'w') do |data_file|
-   data_file.puts arg[:data_file]
-  end
+  File.open(arg[:file_name],'w') { |data_file| data_file.puts arg[:data_file] }
  end
 
- def correct?( output_file )
-  if !exist? file: output_file then 
-   return false 
-  end
-  File.open(output_file.to_s, "r") do |line|
-   if (!line.readline == @true_resault) then
-    return false
-   end
-  end
-  return true
+ def correct?(output_file)
+  file_array = File.readlines(output_file).each { |line| line.sub(/\n/,"|") }
+
+  puts "File output: #{file_array}"
+
+  return file_array == @true_resoult 
  end
 end
 
 class Convert_two_files_in_to_one
  def convert(file1_name, file2_name)
   output_file = "outputfile.txt"
-  true_resoult = ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"] 
+  resoult = ["Rob V", "Mike B", "Sten J", "Bobby N", "Cris H"] 
   File.open("outputfile.txt", "w") do |data_file|
-   data_file.puts true_resoult
+   data_file.puts resoult
   end
   return output_file
  end
