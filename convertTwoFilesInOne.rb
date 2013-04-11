@@ -18,9 +18,6 @@ class TestConvertTwoFilesInToOne
       end
     end
 
-    puts "Press enter!"
-    gets
-
     delete_test_files
   end
 
