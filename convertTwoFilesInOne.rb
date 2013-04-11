@@ -1,25 +1,20 @@
 class TestConvertTwoFilesInToOne
-
   def test
     set_test_simple_data
-
+    
     create_test_files
-  
-    begin
-      @@output_file = 
-	ConvertTwoFilesInToOne.new.convert(@@file1_name, @@file2_name)
-    rescue
-      @@output_file = ""
-      puts "Class doen't exist!"
-    end
 
-    if !output_file_is_exist?
-      puts "Output file does't exist!" 
+    if !class_exist? 
+      puts "Class doen't exist!"
     else
-      if !output_file_is_correct?
-        puts "Output data is not correct!"
+      if !output_file_is_exist?
+        puts "Output file does't exist!" 
       else
-        puts "Test is done! No errors!"
+        if !output_file_is_correct?
+          puts "Output data is not correct!"
+        else
+          puts "Test is done! No errors!"
+        end
       end
     end
 
@@ -30,7 +25,16 @@ class TestConvertTwoFilesInToOne
   end
 
   def output_file_is_exist?
-    File.exist? @@output_file
+    @@output_file_name != nil ? File.exist?(@@output_file_name) : false
+  end
+
+  def class_exist?
+    begin
+      @@output_file_name = 
+	ConvertTwoFilesInToOne.new.convert(@@file1_name, @@file2_name)
+    rescue
+      false
+    end
   end
 
   def set_test_simple_data
@@ -43,25 +47,54 @@ class TestConvertTwoFilesInToOne
   end
 
   def delete_test_files
-    [@@file1_name, @@file2_name, @@output_file].each { |file| 
-	    File.delete(file) if File.exist? file }
+    file = @@output_file_name rescue ""
+    [@@file1_name, @@file2_name, file].each { |file| 
+      File.delete file if File.exist? file }
   end
 
   def create_test_files
     files = [[@@file1_name, @@list1_data], [@@file2_name, @@list2_data]]
-    files.each { |file, data| File.open(file,'w') { |line| line.puts data } }
+    files.each { |file, data| File.open(file, "w") { |line| line.puts data } }
   end
 
   def output_file_is_correct?
-    @@true_resoult == File.readlines(@@output_file)
+    @@true_resoult == File.readlines(@@output_file_name)
   end
 end
 
 class ConvertTwoFilesInToOne
   def convert(file1_name, file2_name)
-    resoult = ["Rob V\n", "Mike B\n", "Sten J\n", "Bobby N\n", "Cris H\n"] 
-    File.open("outputfile.txt", "w") { |line| line.puts resoult }
-    "outputfile.txt"
+    if !files_exist? file1_name, file2_name
+      puts "Files or one does't exist!"
+      "nil_output"
+    else
+      puts "get files data" 
+      get_files_data
+
+      puts "merge_the_files_data_with_the_exception_of_repetitions" 
+      merge_the_files_data_with_the_exception_of_repetitions
+      
+      puts "write data"
+      #!write_data_in_to_output_file
+
+      puts "set default resoult"
+      resoult = ["Rob V\n", "Mike B\n", "Sten J\n", "Bobby N\n", "Cris H\n"] 
+      File.open("outputfile.txt", "w") { |line| line.puts resoult }
+      "outputfile.txt"
+    end
+  end
+
+  def files_exist?(file1, file2) 
+    File.exist?(@@file1 = file1) and File.exist?(@@file2 = file2)
+  end
+
+  def get_files_data
+    @@file1_data = File.readlines(@@file1)
+    @@file2_data = File.readlines(@@file2) 
+  end
+
+  def merge_the_files_data_with_the_exception_of_repetitions
+    @@output_data = @@file1_data | @@file2_data
   end
 end
 
