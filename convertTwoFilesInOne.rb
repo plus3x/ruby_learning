@@ -99,7 +99,7 @@ class ConvertTwoFilesInToOne
 
   def return_output_file_name
     @@output_file
-  def
+  end
 end
 
 def clear_screen
