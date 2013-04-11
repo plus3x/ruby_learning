@@ -1,5 +1,5 @@
 class TestGameWords 
-  def initialize
+  def have_bug?
     input_chain = %w(Bob Mark Karl Lara Yan Buk Kim)
     true_chain = %w(Bob Buk Kim Mark Karl Lara)
     return %(Output chain is not correct!) unless true_chain == GameWords.new.game(input_chain)
@@ -29,6 +29,6 @@ class GameWords
   end
 end
 
-puts %(Test is: #{TestGameWord.new})
+puts %(Test is have bug?: #{TestGameWord.new.have_bug?})
 puts %(Call class GameWords)
 puts GameWords.new(%w(bm Mark BoB Jamy))
