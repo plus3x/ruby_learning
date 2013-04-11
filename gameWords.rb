@@ -64,10 +64,20 @@ class GameWords
   
   def select_max_lenght_chain_of_words(chain)
     chain.each { |word| puts "#{word} = #{word[0].downcase} #{word[/.$/].downcase}" }
-    chains = chain.each { |word| 
-      (chain - [word]).each { |word_second| 
-        word + word_second if word[/.$/].downcase == word_second[0].downcase }}
-    puts "Chains: #{chains}"
+    puts "Chains get: #{@@chains = chains_get chain}"
+  end
+
+  def chains_get(chain)
+    chains = []
+    chain.each { |word|
+      (chain - [word]).each { |word_second|
+        if word[/.$/].downcase == word_second[0].downcase
+	   puts	"#{[word_second] + (chain - [word_second] - [word])}"
+	   chains <<  word_second << chains_get([word_second] + (chain - [word_second] - [word]))
+	end
+      }
+    }
+    chains
   end
 		  
   def return_chain_of_words
@@ -76,4 +86,4 @@ class GameWords
 end
 
 puts "Call class GameWords"
-puts GameWords.new.select_max_lenght_chain_of_words(["bob", "Mark", "BoB", "Jasy"])
+puts GameWords.new.select_max_lenght_chain_of_words(["bob", "bm", "Mark", "BoB", "Jasy"])
