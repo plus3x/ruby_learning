@@ -59,14 +59,21 @@ class GameWords
   end
 
   def chain_of_words_have_symbols_or_numbers_or_spaces?(chain_of_words)
-    chain_of_words.each { |word| break if !word[/[a-z]{2,}/i] }
+    chain_of_words.each { |word| return false if !word[/[a-z]{2,}/i] }
   end
   
-  def select_max_lenght_chain_of_words
+  def select_max_lenght_chain_of_words(chain)
+    chain.each { |word| puts "#{word} = #{word[0].downcase} #{word[/.$/].downcase}" }
+    chains = chain.each { |word| 
+      (chain - [word]).each { |word_second| 
+        word + word_second if word[/.$/].downcase == word_second[0].downcase }}
+    puts "Chains: #{chains}"
   end
 		  
   def return_chain_of_words
+    @@max_chain_of_words = "Max chain!)"
   end
 end
 
-GameWords.new.chain_of_words_have_symbols_or_numbers_or_spaces?(["bob", "1", "Bob"])
+puts "Call class GameWords"
+puts GameWords.new.select_max_lenght_chain_of_words(["bob", "Mark", "BoB", "Jasy"])
