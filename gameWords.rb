@@ -11,14 +11,19 @@ class TestGameWords
 	if !output_data_is_correct?
 	  puts "Output data is not correct!"
 	else
-	  puts "Test is done! No errors!"
+          if !output_error_if_not_correct_enter_chain?
+	    puts "Not correct chain is back to output!"
+	  else
+	    puts "Test is done! No errors!"
+	  end
 	end
       end
     end
   end
 
   def create_test_chain_of_words
-    @@chain_words = %w(Bob Mark Karl Lara Yan Buk Kim)
+    @@chain_of_words_words = %w(Bob Mark Karl Lara Yan Buk Kim)
+    @@chain_of_words_woeds_with_error_sympols = ["a", "a a", "a1a", "@%$*"]
     @@true_chain = %w(Bob Buk Kim Mark Karl Lara)
   end
 
@@ -34,3 +39,34 @@ class TestGameWords
     @@output == @@true_chain
   end
 end
+
+class GameWords
+  def game(chain_of_words)
+    if !chain_of_words_is_not_nil? chain_of_words
+      puts "Chain of words is empty!"
+    else
+      if !chain_of_words_have_symbols_or_numbers_or_spaces? chain_of_words
+	puts "Chain of words have symbols or numbers!"
+      else
+	select_max_lenght_chain_of_words
+	return_chain_of_words
+      end
+    end
+  end
+
+  def chain_of_words_is_not_nil?(chain_of_words)
+    @@chain_of_words = chain_of_words != nil ? chain_of_words : false
+  end
+
+  def chain_of_words_have_symbols_or_numbers_or_spaces?(chain_of_words)
+    chain_of_words.each { |word| break if !word[/[a-z]{2,}/i] }
+  end
+  
+  def select_max_lenght_chain_of_words
+  end
+		  
+  def return_chain_of_words
+  end
+end
+
+GameWords.new.chain_of_words_have_symbols_or_numbers_or_spaces?(["bob", "1", "Bob"])
