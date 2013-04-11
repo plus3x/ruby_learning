@@ -69,10 +69,6 @@ class ConvertTwoFilesInToOne
       merge_the_files_data_with_the_exception_of_repetitions
       write_data_in_to_output_file
       return_output_file_name
-
-      #!resoult = ["Rob V\n", "Mike B\n", "Sten J\n", "Bobby N\n", "Cris H\n"] 
-      #!File.open("outputfile.txt", "w") { |line| line.puts resoult }
-      #!"outputfile.txt"
     end
   end
 
