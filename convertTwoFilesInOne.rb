@@ -68,19 +68,14 @@ class ConvertTwoFilesInToOne
       puts "Files or one does't exist!"
       "nil_output"
     else
-      puts "get files data" 
       get_files_data
-
-      puts "merge_the_files_data_with_the_exception_of_repetitions" 
       merge_the_files_data_with_the_exception_of_repetitions
-      
-      puts "write data"
-      #!write_data_in_to_output_file
+      write_data_in_to_output_file
+      return_output_file_name
 
-      puts "set default resoult"
-      resoult = ["Rob V\n", "Mike B\n", "Sten J\n", "Bobby N\n", "Cris H\n"] 
-      File.open("outputfile.txt", "w") { |line| line.puts resoult }
-      "outputfile.txt"
+      #!resoult = ["Rob V\n", "Mike B\n", "Sten J\n", "Bobby N\n", "Cris H\n"] 
+      #!File.open("outputfile.txt", "w") { |line| line.puts resoult }
+      #!"outputfile.txt"
     end
   end
 
@@ -96,6 +91,15 @@ class ConvertTwoFilesInToOne
   def merge_the_files_data_with_the_exception_of_repetitions
     @@output_data = @@file1_data | @@file2_data
   end
+
+  def write_data_in_to_output_file
+    @@output_file = "output.txt"
+    File.open(@@output_file, "w") { |line| line.puts @@output_data }
+  end
+
+  def return_output_file_name
+    @@output_file
+  def
 end
 
 def clear_screen
