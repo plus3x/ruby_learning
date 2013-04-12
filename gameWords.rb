@@ -24,7 +24,10 @@ class GameWords
       (chain - [chain[0]]).each { |word| puts %(#{chain[0]} #{word} #{chain[0][/.$/].downcase} #{word[0].downcase})
         (chains << 
 	chain[0] << 
-	chains_get([word] + (chain - [word] - [chain[0]])) << 
+	chains_get([word] + 
+		   (chain - 
+		    [word] - 
+		    [chain[0]])) << 
 	word) if 
 	chain[0][/.$/].downcase == word[0].downcase
       }
