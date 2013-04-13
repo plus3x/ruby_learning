@@ -1,6 +1,6 @@
 class TestConvertTwoFilesInToOne
   def initialize
-    @file1_name, @file2_name = "file1.txt", "file2.txt"
+    @file_one_name, @file_two_name = "file_one.txt", "file_two.txt"
     @list1_data, @list2_data = ["Rob V", "Mike B", "Sten J"], ["Bobby N", "Mike B", "Cris H"]
     @true_resoult = ["Rob V\n", "Mike B\n", "Sten J\n", "Bobby N\n", "Cris H\n"]
   end
@@ -12,19 +12,17 @@ class TestConvertTwoFilesInToOne
   end
 
   def delete_test_files
-    [@file1_name, @file2_name, @output_file_name].each { |file| File.delete(file) if File.exist?(file) }
+    [@file_one_name, @file_two_name, @file_output_name].each { |file| File.delete(file) if File.exist?(file) }
   end
 
   def create_test_files
-    open(@file1_name, 'w') { |line| line.puts @list1_data }
-    open(@file2_name, 'w') { |line| line.puts @list2_data }
+    open(@file_one_name, 'w') { |line| line.puts @list1_data }
+    open(@file_two_name, 'w') { |line| line.puts @list2_data }
   end
 
   def check_correct_output_file
-    @output_file_name = ConvertTwoFilesInToOne.new(@file1_name, @file2_name)
-    puts "Output name: #{@output_file_name}"
-    puts "Output data: #{open(@output_file_name)}"
-    if not @true_resoult == File.readlines(@output_file_name)
+    @file_output_name = ConvertTwoFilesInToOne.new.convert(@file_one_name, @file_two_name)
+    if not @true_resoult == open(@file_output_name).readlines
       puts "Output data is not correct!"
     else
       puts "Test is done! No errors!"
@@ -33,36 +31,31 @@ class TestConvertTwoFilesInToOne
 end
 
 class ConvertTwoFilesInToOne
-  def initialize(file1_name, file2_name)
-    @file1_name = file1_name
-    @file2_name = file2_name
-    @output_file_name = "output.txt"
+  def convert(file_one_name, file_two_name)
+    @file_one_name = file_one_name
+    @file_two_name = file_two_name
+    @file_output_name = "output.txt"
  
-    if not (File.exist?(@file1_name) and File.exist?(@file2_name))
-      return puts %w(Files or one doen't exist!)
-      "nil_output"
-    end
+    return puts %w(Files or one doen't exist!) if not (File.exist?(@file_one_name) and File.exist?(@file_two_name))
 
     get_files_data
     merge_the_files_data_with_the_exception_of_repetitions
     write_data_in_to_output_file
    
-    puts "Output name: #{@output_file_name}"
-    puts "Output data: #{@output_file_data}"
-    @output_file_name
+    @file_output_name
   end
 
   def get_files_data
-    @file1_data = File.readlines(@file1_name)
-    @file2_data = File.readlines(@file2_name) 
+    @file_one_data = open(@file_one_name).readlines
+    @file_two_data = open(@file_two_name).readlines 
   end
 
   def merge_the_files_data_with_the_exception_of_repetitions
-    @output_file_data = @file1_data | @file2_data
+    @file_output_data = @file_one_data | @file_two_data
   end
 
   def write_data_in_to_output_file
-    File.open(@output_file_name, "w") { |line| line.puts @output_file_data }
+    open(@file_output_name, "w") { |line| line.puts @file_output_data }
   end
 end
 
