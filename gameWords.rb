@@ -1,8 +1,8 @@
 class TestGameWords 
   def output_correct?
     input_chain = %w(Bob Mark Karl Lara Yan Buk Kim)
-    true_chain = %w(Bob Buk Kim Mark Karl Lara)
-    true_chain == GameWords.new(input_chain)
+    correct_chain = %w(Bob Buk Kim Mark Karl Lara)
+    correct_chain == GameWords.new(input_chain)
   end
 end
 
