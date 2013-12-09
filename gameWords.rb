@@ -22,13 +22,13 @@ class GameWords
 
   def longest_chain(chain, base_word = '')
     chain_return = base_word if not base_word.empty?
-    (chain - [base_word]).each { |word|
+    (chain - [base_word]).each do |word|
       if base_word.empty?
         chain_return << longest_chain(chain, word)
       else
         chain_return << longest_chain(chain, word) if base_word[-1, 1].downcase == word[0].downcase
       end
-    }
+    end
     @chain_longest = chain_return if @chain_longest.size < chain.size
     chain_return
   end
