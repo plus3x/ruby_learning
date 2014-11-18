@@ -1,7 +1,7 @@
 require "fiber"
 
 fiber = Fiber.new do |first|
-  second = Fiber.yield first + 2
+  Fiber.yield first + 2
 end
 
 puts fiber.resume 10
