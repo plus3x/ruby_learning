@@ -1,3 +1,4 @@
+# http://www.ruby-doc.org/core-2.1.5/Exception.html
 module TestExceptions
   module_function
 
