@@ -7,7 +7,6 @@ class Anagram
   end
 
   def decremental
-    search_word_chars = @search_word.chars
     search_word_size = search_word_chars.size
 
     @source.select do |line|
@@ -20,8 +19,6 @@ class Anagram
   end
 
   def grep_and_decremental
-    search_word_chars = @search_word.chars
-
     @source.grep(/^.{#{@search_word.size}}$/).select do |line|
       word = line.strip
 
@@ -34,15 +31,21 @@ class Anagram
   end
 
   def sort
-    search_word_chars = (@search_word.chars + ["\n"]).sort
-
-    @source.select { |line| search_word_chars == line.chars.sort }
+    @source.select { |line| search_word_bytes_sorted == line.bytes.sort }
   end
 
   def grep_and_sort
-    search_word_chars = (@search_word.chars + ["\n"]).sort
+    @source.grep(/^.{#{@search_word.size}}$/).select { |line| search_word_bytes_sorted == line.bytes.sort }
+  end
 
-    @source.grep(/^.{#{@search_word.size}}$/).select { |line| search_word_chars == line.chars.sort }
+  private
+
+  def search_word_bytes_sorted
+    @search_word_bytes_sorted ||= (@search_word + "\n").bytes.sort
+  end
+
+  def search_word_chars
+    @search_word_chars ||= @search_word.chars
   end
 end
 
@@ -114,19 +117,19 @@ __END__
 Decremental:            0.913660
 Grep and decremental:   2.158851
 Grep:                   1.646148
-Sort:                   7.893614
-Grep and sort:          2.273887
+Sort:                   4.615171
+Grep and sort:          2.209467
 
 ### Long word(parental) ###
 Decremental:            1.161732
 Grep and decremental:   2.703555
 Grep:                   > 200
-Sort:                   7.926911
-Grep and sort:          3.210074
+Sort:                   4.709334
+Grep and sort:          2.930281
 
 ### Very long word(discriminator) ###
 Decremental:            1.069861
 Grep and decremental:   2.901802
 Grep:                   > 999
-Sort:                   7.340351
-Grep and sort:          3.066173
+Sort:                   4.611236
+Grep and sort:          2.895310
