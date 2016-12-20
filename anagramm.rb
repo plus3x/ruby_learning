@@ -11,7 +11,7 @@ class Anagramm
     search_word_size = search_word_chars.size
 
     @source.select do |line|
-      word = line[0..-2]
+      word = line.strip
 
       next if word.size != search_word_size
 
@@ -23,7 +23,7 @@ class Anagramm
     search_word_chars = @search_word.chars
 
     @source.grep(/^.{#{@search_word.size}}$/).select do |line|
-      word = line[0..-2]
+      word = line.strip
 
       search_word_chars.all? { |c| word.sub!(c, '') }
     end
@@ -111,22 +111,22 @@ puts format("Grep and sort:        %10.6f", Benchmark.realtime { iterations.time
 __END__
 
 ### Short word(team) ###
-Decremental:            1.025778
-Grep and decremental:   2.249122
-Grep:                   1.712732
-Sort:                   8.429631
-Grep and sort:          2.279785
+Decremental:            0.913660
+Grep and decremental:   2.158851
+Grep:                   1.646148
+Sort:                   7.893614
+Grep and sort:          2.273887
 
 ### Long word(parental) ###
-Decremental:            1.184614
-Grep and decremental:   2.719360
+Decremental:            1.161732
+Grep and decremental:   2.703555
 Grep:                   > 200
-Sort:                   7.847597
-Grep and sort:          3.365319
+Sort:                   7.926911
+Grep and sort:          3.210074
 
 ### Very long word(discriminator) ###
-Decremental:            1.105592
-Grep and decremental:   2.777214
+Decremental:            1.069861
+Grep and decremental:   2.901802
 Grep:                   > 999
-Sort:                   7.942579
-Grep and sort:          3.150518
+Sort:                   7.340351
+Grep and sort:          3.066173
